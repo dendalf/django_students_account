@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
-# from .models import Student
 
 DOMAINS = ('gmail.com', 'yahoo.com')
 
@@ -11,12 +10,13 @@ def validate_email_domain(value):
     if domain not in DOMAINS:
         raise ValidationError('Your domain is not correct!')
 
-#
-# def validate_unique_email(value):
-#     students = Student.objects.all()
-#     for st in students:
-#         if value.lower() == st.email.lower():
-#             raise ValidationError('Your email is not unique!')
+
+def validate_unique_email(value):
+    from students.models import Student
+    students = Student.objects.all()
+    for st in students:
+        if value.lower() == st.email.lower():
+            raise ValidationError('Your email is not unique!')
 
 
 @deconstructible

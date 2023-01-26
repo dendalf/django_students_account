@@ -3,6 +3,8 @@ from dateutil.relativedelta import relativedelta
 
 from django.db import models
 
+from groups.validators import validate_start_date
+
 
 class Group(models.Model):
     group_name = models.CharField(
@@ -10,7 +12,7 @@ class Group(models.Model):
         verbose_name='Group name',
         db_column='group_name'
     )
-    start_date = models.DateField(default=datetime.date.today)
+    start_date = models.DateField(default=datetime.date.today, validators=[validate_start_date])
     end_date = models.DateField(default=datetime.date.today)
     group_description = models.TextField(
         max_length=50,
