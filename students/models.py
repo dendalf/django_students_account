@@ -4,7 +4,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from faker import Faker
 
-from students.validators import validate_email_domain, ValidateEmailDomain
+from students.validators import validate_email_domain, ValidateEmailDomain, validate_unique_email
 
 VALID_DOMAINS = ('gmail.com', 'yahoo.com', 'test.com')
 
@@ -14,7 +14,7 @@ class Student(models.Model):
     last_name = models.CharField(max_length=50, verbose_name='Last name', db_column='l_name')
     birthdate = models.DateField(default=datetime.date.today)
     city = models.CharField(max_length=50, null=True, blank=True)
-    email = models.EmailField(validators=[ValidateEmailDomain(*VALID_DOMAINS)])
+    email = models.EmailField(validators=[ValidateEmailDomain(*VALID_DOMAINS), validate_unique_email])
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
