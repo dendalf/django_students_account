@@ -31,20 +31,24 @@ def get_students(request, args):
             Q(first_name__istartswith=args.get('first_name', '')) | Q(last_name__istartswith=args.get('last_name', ''))
         )
 
-    form = '''
-        <form method="get">
-          <label for="fname">First name:</label><br>
-          <input type="text" id="fname" name="first_name"><br>
-          <label for="lname">Last name:</label><br>
-          <input type="text" id="lname" name="last_name"><br><br>
-          <input type="submit" value="Submit">
-        </form> 
-    
-    '''
 
-    string = form + format_list_students(students)
-    response = HttpResponse(string)
-    return response
+
+    # string = form + format_list_students(students)
+    # response = HttpResponse(string)
+    # return response
+    return render(
+        request=request,
+        template_name='students/list.html',
+        context={
+            'title': 'List of Students',
+            'students': students,
+        }
+    )
+
+
+def detail_student(request, pk):
+    student = Student.objects.get(pk=pk)
+    return render(request, 'students/detail.html', {'title': f'Detail of {student.first_name} {student.last_name}','student': student})
 
 
 def create_student(request):
@@ -63,33 +67,34 @@ def create_student(request):
               <table>
               {form.as_table()}
               </table>
-              <input type="submit" value="Submit">
+              <input type="submit" value="Submit"> <br><br>
+              <a href="/students/">Back to list</a>
             </form>
         '''
 
     return HttpResponse(html_form)
 
 
-# def update_student(request, pk):
-#     students = Student.objects.get(pk=pk)
-#     if request.method == 'GET':
-#         form = get_object_or_404(UpdateStudentForm)
-#     elif request.method == 'POST':
-#         form = get_object_or_404(UpdateStudentForm)
-#         if form.is_valid():
-#             # students.update(form)
-#             # print(form)
-#             return HttpResponseRedirect('/students/')
-#
-#     token = get_token(request)
-#     html_form = f'''
-#             <form method="post">
-#             <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
-#               <table>
-#               {form.as_table()}
-#               </table>
-#               <input type="submit" value="Submit">
-#             </form>
-#         '''
-#
-#     return HttpResponse(html_form)
+def update_student(request, pk):
+    student = Student.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = UpdateStudentForm(instance=student)
+    elif request.method == 'POST':
+        form = UpdateStudentForm(request.POST, instance=student)
+        if form.is_valid():
+            student.save()
+            return HttpResponseRedirect('/students/')
+
+    token = get_token(request)
+    html_form = f'''
+            <form method="post">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{token}">
+              <table>
+              {form.as_table()}
+              </table>
+              <input type="submit" value="Submit"> <br><br>
+              <a href="/students/">Back to list</a>
+            </form>
+        '''
+
+    return HttpResponse(html_form)
