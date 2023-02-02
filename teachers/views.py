@@ -6,12 +6,8 @@ from django.shortcuts import render, get_object_or_404
 from webargs.djangoparser import use_args
 from webargs.fields import Str
 
-from .forms import CreateStudentForm, UpdateStudentForm
-from .models import Student
-
-
-def index(request):
-    return HttpResponse('Welcome to LMS')
+from .forms import CreateTeacherForm, UpdateTeacherForm
+from .models import Teacher
 
 
 @use_args(
@@ -22,66 +18,66 @@ def index(request):
     location='query',
 
 )
-def get_students(request, args):
-    students = Student.objects.all().order_by('birthdate')
+def get_teachers(request, args):
+    teachers = Teacher.objects.all()
 
     if len(args) and (args.get('first_name') or args.get('last_name')):
-        students = students.filter(
+        teachers = teachers.filter(
             Q(first_name__istartswith=args.get('first_name', '')) | Q(last_name__istartswith=args.get('last_name', ''))
         )
 
     return render(
         request=request,
-        template_name='students/list.html',
+        template_name='teachers/list.html',
         context={
-            'title': 'List of Students',
-            'students': students,
+            'title': 'List of Teachers',
+            'teachers': teachers,
         }
     )
 
 
-def detail_student(request, pk):
-    student = Student.objects.get(pk=pk)
-    return render(request, 'students/detail.html', {'title': f'Detail of {student.first_name} {student.last_name}','student': student})
+def detail_teacher(request, pk):
+    teacher = Teacher.objects.get(pk=pk)
+    return render(request, 'teachers/detail.html', {'title': f'Detail of {teacher.first_name} {teacher.last_name}', 'teacher': teacher})
 
 
-def create_student(request):
+def create_teacher(request):
     if request.method == 'GET':
-        form = CreateStudentForm()
+        form = CreateTeacherForm()
     elif request.method == 'POST':
-        form = CreateStudentForm(request.POST)
+        form = CreateTeacherForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect('/teachers/')
 
     token = get_token(request)
     return render(
         request=request,
-        template_name='students/create.html',
+        template_name='teachers/create.html',
         context={
-            'title': 'Create Student',
+            'title': 'Create Teacher',
             'token': token,
             'form': form,
         }
     )
 
 
-def update_student(request, pk):
-    student = Student.objects.get(pk=pk)
+def update_teacher(request, pk):
+    teacher = Teacher.objects.get(pk=pk)
     if request.method == 'GET':
-        form = UpdateStudentForm(instance=student)
+        form = UpdateTeacherForm(instance=teacher)
     elif request.method == 'POST':
-        form = UpdateStudentForm(request.POST, instance=student)
+        form = UpdateTeacherForm(request.POST, instance=teacher)
         if form.is_valid():
-            student.save()
-            return HttpResponseRedirect('/students/')
+            teacher.save()
+            return HttpResponseRedirect('/teachers/')
 
     token = get_token(request)
     return render(
         request=request,
-        template_name='students/create.html',
+        template_name='teachers/create.html',
         context={
-            'title': 'Update Student',
+            'title': 'Update Teacher',
             'token': token,
             'form': form,
         }
