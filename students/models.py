@@ -4,7 +4,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 from faker import Faker
 
-from students.validators import validate_email_domain, ValidateEmailDomain, validate_unique_email
+from core.validators import ValidateEmailDomain, validate_unique_email
 
 VALID_DOMAINS = ('gmail.com', 'yahoo.com', 'test.com')
 

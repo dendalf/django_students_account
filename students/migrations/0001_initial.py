@@ -3,7 +3,7 @@
 import datetime
 import django.core.validators
 from django.db import migrations, models
-import students.validators
+import core.validators
 
 
 class Migration(migrations.Migration):
@@ -22,7 +22,8 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(db_column='l_name', max_length=50, verbose_name='Last name')),
                 ('birthdate', models.DateField(default=datetime.date.today)),
                 ('city', models.CharField(blank=True, max_length=50, null=True)),
-                ('email', models.EmailField(max_length=254, validators=[students.validators.ValidateEmailDomain('gmail.com', 'yahoo.com', 'test.com'), students.validators.validate_unique_email])),
+                ('email', models.EmailField(max_length=254, validators=[
+                    core.validators.ValidateEmailDomain('gmail.com', 'yahoo.com', 'test.com'), core.validators.validate_unique_email])),
                 ('phone_number', models.CharField(max_length=20)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),

@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 
 from django.db import models
 
-from groups.validators import validate_start_date
+from core.validators import validate_start_date
 
 
 class Group(models.Model):

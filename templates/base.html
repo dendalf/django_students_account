@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS - {% block title %}{% endblock %}</title>
+    <style>
+        #menu{
+            font-family:arial, sans-serif;
+            width: 50%;
+        }
+        #menu td{
+            margin: 5px;
+            padding: 5px;
+        }
+        {% block custom_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <table id="menu">
+        <tr>
+            <td><a href="{% url 'home' %}">Home</a></td>
+            <td><a href="{% url 'students:list' %}">List of students</a></td>
+            <td><a href="{% url 'groups:list' %}">List of groups</a></td>
+            <td><a href="{% url 'teachers:list' %}">List of teachers</a></td>
+            <td><a href="{% url 'students:create' %}">Create student</a></td>
+            <td><a href="{% url 'groups:create' %}">Create group</a></td>
+            <td><a href="{% url 'teachers:create' %}">Create teacher</a></td>
+        </tr>
+    </table>
+    <br>
+    {% block content %}{% endblock %}
+</body>
+</html>
