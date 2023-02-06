@@ -1,17 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}List of groups{% endblock %}
+
+{% block content %}
     <form method="get">
           <label for="gname">Group name:</label><br>
-          <input type="text" id="gname" name="group_name"><br>
+          <input type="text" id="gname" name="group_name"><br><br>
           <input type="submit" value="Submit">
     </form>
     <br>
-    <a href="/groups/create/">Create Group</a>
+    <a href="{% url 'groups:create' %}">Create Group</a>
     <br><br>
     <table>
         <thead>
@@ -25,13 +23,12 @@
         <tbody>
             {% for gr in groups %}
             <tr>
-                <td><a href="/groups/detail/{{ gr.pk }}">{{gr.group_name}} </a></td>
+                <td><a href="{% url 'groups:detail' gr.pk %}">{{gr.group_name}} </a></td>
                 <td>{{gr.start_date}} </td>
                 <td>{{gr.end_date}} </td>
-                <td><a href="/groups/update/{{ gr.pk }}">Edit</a></td>
+                <td><a href="{% url 'groups:update' gr.pk %}">Edit</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

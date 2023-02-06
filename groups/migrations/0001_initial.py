@@ -2,7 +2,7 @@
 
 import datetime
 from django.db import migrations, models
-import groups.validators
+import core.validators
 
 
 class Migration(migrations.Migration):
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('group_name', models.CharField(db_column='group_name', max_length=50, verbose_name='Group name')),
-                ('start_date', models.DateField(default=datetime.date.today, validators=[groups.validators.validate_start_date])),
+                ('start_date', models.DateField(default=datetime.date.today, validators=[core.validators.validate_start_date])),
                 ('end_date', models.DateField(default=datetime.date.today)),
                 ('group_description', models.TextField(db_column='group_description', max_length=50, verbose_name='Group description')),
             ],

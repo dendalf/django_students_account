@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LMS - {{ title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}List of students{% endblock %}
+
+{% block content %}
     <form method="get">
           <label for="fname">First name:</label><br>
           <input type="text" id="fname" name="first_name"><br>
@@ -13,7 +11,7 @@
           <input type="submit" value="Submit">
     </form>
     <br>
-    <a href="/students/create">Create Students</a>
+    <a href="{% url 'students:create' %}">Create Student</a>
     <br><br>
     <table>
         <thead>
@@ -22,18 +20,19 @@
                  <th>Last name</th>
                  <th>Birthdate</th>
                  <th>Edit</th>
+                 <th>Delete</th>
             </tr>
         </thead>
         <tbody>
             {% for st in students %}
             <tr>
-                <td><a href="/students/detail/{{ st.pk }}">{{st.first_name}} </a></td>
+                <td><a href="{% url 'students:detail' st.pk %}">{{st.first_name}} </a></td>
                 <td>{{st.last_name}} </td>
                 <td>{{st.birthdate}} </td>
-                <td><a href="/students/update/{{st.pk}}/">Edit</a></td>
+                <td><a href="{% url 'students:update' st.pk %}">Edit</a></td>
+                <td><a href="{% url 'students:delete' st.pk %}">Remove</a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.middleware.csrf import get_token
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 
 from webargs.djangoparser import use_args
 from webargs.fields import Str
@@ -37,7 +38,7 @@ def get_teachers(request, args):
 
 
 def detail_teacher(request, pk):
-    teacher = Teacher.objects.get(pk=pk)
+    teacher = get_object_or_404(Teacher, pk=pk)
     return render(request, 'teachers/detail.html', {'title': f'Detail of {teacher.first_name} {teacher.last_name}', 'teacher': teacher})
 
 
@@ -50,20 +51,18 @@ def create_teacher(request):
             form.save()
             return HttpResponseRedirect('/teachers/')
 
-    token = get_token(request)
     return render(
         request=request,
         template_name='teachers/create.html',
         context={
             'title': 'Create Teacher',
-            'token': token,
             'form': form,
         }
     )
 
 
 def update_teacher(request, pk):
-    teacher = Teacher.objects.get(pk=pk)
+    teacher = get_object_or_404(Teacher, pk=pk)
     if request.method == 'GET':
         form = UpdateTeacherForm(instance=teacher)
     elif request.method == 'POST':
@@ -72,13 +71,23 @@ def update_teacher(request, pk):
             teacher.save()
             return HttpResponseRedirect('/teachers/')
 
-    token = get_token(request)
     return render(
         request=request,
         template_name='teachers/create.html',
         context={
             'title': 'Update Teacher',
-            'token': token,
             'form': form,
         }
     )
+
+
+def delete_teacher(request, pk):
+    teacher = get_object_or_404(Teacher, pk=pk)
+    if request.method == 'POST':
+        teacher.delete()
+        return HttpResponseRedirect(reverse('teachers:list'))
+    else:
+        return render(request, 'teachers/delete.html', {'teacher': teacher})
+
+
+
