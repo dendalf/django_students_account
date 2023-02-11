@@ -27,6 +27,6 @@ class Teacher(models.Model):
             t = cls()
             t.first_name = f.first_name()
             t.last_name = f.last_name()
-            t.birthdate = f.date_between(start_date='-65y', end_date='-18y')
+            t.birthdate = f.date_between(start_date='-65y', end_date='-21y')
             t.salary = f.pyint(min_value=300, max_value=10000, step=100)
             t.save()

@@ -41,12 +41,20 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'django_filters',
+
+    'debug_toolbar',
+
     'students',
     'groups',
     'teachers'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,6 +127,10 @@ USE_I18N = True
 USE_TZ = True
 
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -130,7 +142,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 if DEBUG:
+    import socket
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
     SHELL_PLUS = 'ipython'
     SHELL_PLUS_PRINT_SQL = True
 
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

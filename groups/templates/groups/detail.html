@@ -3,11 +3,27 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <p>Group name: {{ group.group_name }}</p>
-    <p>Date of start: {{ group.start_date }}</p>
-    <p>Date of end: {{ group.end_date }}</p>
-    <p>Description: {{ group.group_description }}</p>
-    <a href="{% url 'groups:update' group.pk %}">Edit</a>
-    <br><br>
-    <a href="{% url 'groups:list' %}">Back to list</a>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col align-self-center">
+        <div class="card" style="width: 18rem;">
+            <h6 class="card-header">Group Card</h6>
+            <div class="card-body">
+                <h5 class="card-title">{{ group.group_name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Date of start: {{ group.start_date }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Date of end: {{ group.end_date }}</h6>
+                <p class="card-text">{{ group.group_description }}</p>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'groups:update' group.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'groups:delete' group.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </div>
+            </div>
+        </div>
+        <a href="{% url 'groups:list' %}" class="btn btn-outline-primary btn-sm mt-2">Back to list</a>
+    </div>
+    <div class="col"></div>
+</div>
+
 {% endblock %}
