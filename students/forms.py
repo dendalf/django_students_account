@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django_filters import FilterSet
 
 from students.models import Student
 
@@ -13,6 +14,7 @@ class CreateStudentForm(forms.ModelForm):
             'email',
             'birthdate',
             'phone_number',
+            'city',
         ]
 
         widgets = {
@@ -43,6 +45,7 @@ class UpdateStudentForm(forms.ModelForm):
             'last_name',
             'birthdate',
             'phone_number',
+            'city',
         ]
 
         widgets = {
@@ -65,3 +68,10 @@ class UpdateStudentForm(forms.ModelForm):
             raise ValidationError('Your phone number is incorrect!')
 
 
+class StudentFilterForm(FilterSet):
+    class Meta:
+        model = Student
+        fields = {
+            'first_name': ['icontains'],
+            'last_name': ['icontains']
+        }
