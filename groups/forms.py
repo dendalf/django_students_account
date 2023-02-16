@@ -1,18 +1,23 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from students.models import Student
 from .models import Group
 
 
-class CreateGroupForm(forms.ModelForm):
+class BaseGroupForm(forms.ModelForm):
+    students = forms.ModelMultipleChoiceField(queryset=None, required=False)
+
+    def save(self, commit=True):
+        new_group = super().save(commit)
+        students = self.cleaned_data['students']
+        for student in students:
+            student.group = new_group
+            student.save()
+
     class Meta:
         model = Group
-        fields = [
-            'group_name',
-            'start_date',
-            'end_date',
-            'group_description',
-        ]
+        fields = '__all__'
 
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
@@ -20,18 +25,22 @@ class CreateGroupForm(forms.ModelForm):
         }
 
 
-class UpdateGroupForm(forms.ModelForm):
-    class Meta:
-        model = Group
-        fields = [
-            'group_name',
-            'start_date',
-            'end_date',
-            'group_description',
-        ]
+class CreateGroupForm(BaseGroupForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['students'].queryset = Student.objects.filter(group_id__isnull=True)
 
-        widgets = {
-            'start_date': forms.DateInput(attrs={'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'type': 'date'})
-        }
+    class Meta(BaseGroupForm.Meta):
+        pass
+
+
+class UpdateGroupForm(BaseGroupForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['students'].queryset = Student.objects.all()
+
+    class Meta(BaseGroupForm.Meta):
+        pass
 

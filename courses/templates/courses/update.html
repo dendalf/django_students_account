@@ -2,7 +2,7 @@
 
 {% load crispy_forms_filters %}
 
-{% block title %}{{title}}{% endblock %}
+{% block title %}Update Course{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -12,11 +12,12 @@
                 {% csrf_token %}
                 {{ form|crispy }}
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a class="btn btn-outline-primary" href="{% url 'groups:list' %}">Back to list</a>
-                    <input class="btn btn-primary" type="submit" value="Create">
+                    <a class="btn btn-outline-primary" href="{% url 'courses:list' %}">Back to list</a>
+                    <input class="btn btn-primary" type="submit" value="Update">
                 </div>
             </form>
         </div>
         <div class="col-3"></div>
     </div>
+
 {% endblock %}

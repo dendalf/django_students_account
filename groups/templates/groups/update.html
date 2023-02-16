@@ -13,10 +13,15 @@
                 {{ form|crispy }}
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a class="btn btn-outline-primary" href="{% url 'groups:list' %}">Back to list</a>
-                    <input class="btn btn-primary" type="submit" value="Create">
+                    <input class="btn btn-primary" type="submit" value="Update">
                 </div>
             </form>
         </div>
         <div class="col-3"></div>
     </div>
+
+    {% with object_list=group.students.all is_group=True %}
+        {% include 'includes/students_table.html' %}
+    {% endwith %}
+
 {% endblock %}
