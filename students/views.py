@@ -2,17 +2,19 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.middleware.csrf import get_token
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import UpdateView
 
 from webargs.djangoparser import use_args
 from webargs.fields import Str
 
+from core.views import CustomUpdateBaseView
 from .forms import CreateStudentForm, UpdateStudentForm, StudentFilterForm
 from .models import Student
 
 
 def get_students(request):
-    students = Student.objects.all().order_by('birthdate')
+    students = Student.objects.all().order_by('birthdate').select_related('group')
 
     filter_form = StudentFilterForm(data=request.GET, queryset=students)
 
@@ -68,6 +70,20 @@ def update_student(request, pk):
             'form': form,
         }
     )
+
+
+class UpdateStudent(CustomUpdateBaseView):  # custom view
+    model = Student
+    form_class = UpdateStudentForm
+    success_url = 'students:list'
+    template_name = 'students/create.html'
+
+
+class UpdateStudentView(UpdateView):
+    model = Student
+    form_class = UpdateStudentForm
+    success_url = reverse_lazy('students:list')
+    template_name = 'students/create.html'
 
 
 def delete_student(request, pk):

@@ -6,6 +6,7 @@ from django.urls import reverse
 from webargs.djangoparser import use_args
 from webargs.fields import Str
 
+from students.models import Student
 from .forms import CreateGroupForm, UpdateGroupForm
 from .models import Group
 
@@ -61,20 +62,22 @@ def create_group(request):
 
 def update_group(request, pk):
     group = get_object_or_404(Group, pk=pk)
+    students = {'students': Student.objects.filter(group=group)}
     if request.method == 'GET':
-        form = UpdateGroupForm(instance=group)
+        form = UpdateGroupForm(instance=group, initial=students)
     elif request.method == 'POST':
-        form = UpdateGroupForm(request.POST, instance=group)
+        form = UpdateGroupForm(request.POST, instance=group, initial=students)
         if form.is_valid():
-            group.save()
+            form.save()
             return HttpResponseRedirect(reverse('groups:list'))
 
     return render(
         request=request,
-        template_name='groups/create.html',
+        template_name='groups/update.html',
         context={
             'title': 'Update Group',
             'form': form,
+            'group': group,
         }
     )
 
