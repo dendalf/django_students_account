@@ -1,31 +1,24 @@
-from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
-from django.middleware.csrf import get_token
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 
-from webargs.djangoparser import use_args
-from webargs.fields import Str
 
 from core.views import CustomUpdateBaseView
 from .forms import CreateStudentForm, UpdateStudentForm, StudentFilterForm
 from .models import Student
 
 
-def get_students(request):
-    students = Student.objects.all().order_by('birthdate').select_related('group')
+class ListStudentView(ListView):
+    model = Student
+    template_name = 'students/list.html'
 
-    filter_form = StudentFilterForm(data=request.GET, queryset=students)
+    def get_queryset(self):
+        students = Student.objects.all().order_by('birthdate').select_related('group')
 
-    return render(
-        request=request,
-        template_name='students/list.html',
-        context={
-            'students': students,
-            'filter_form': filter_form,
-        }
-    )
+        filter_form = StudentFilterForm(data=self.request.GET, queryset=students)
+        return filter_form
 
 
 def detail_student(request, pk):
@@ -47,26 +40,6 @@ def create_student(request):
         template_name='students/create.html',
         context={
             'title': 'Create Student',
-            'form': form,
-        }
-    )
-
-
-def update_student(request, pk):
-    student = get_object_or_404(Student, pk=pk)
-    if request.method == 'GET':
-        form = UpdateStudentForm(instance=student)
-    elif request.method == 'POST':
-        form = UpdateStudentForm(request.POST, instance=student)
-        if form.is_valid():
-            student.save()
-            return HttpResponseRedirect(reverse('students:list'))
-
-    return render(
-        request=request,
-        template_name='students/create.html',
-        context={
-            'title': 'Update Student',
             'form': form,
         }
     )

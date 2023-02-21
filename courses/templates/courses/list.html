@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            {% for course in courses %}
+            {% for course in object_list %}
             <tr class="clickable-row">
                 <td class="text-center">{{ forloop.counter }}</td>
                 <td>{{course.course_name}}</td>

@@ -1,5 +1,5 @@
 from django import forms
-from django.core.exceptions import ValidationError
+from django_filters import FilterSet
 
 from .models import Teacher
 
@@ -43,3 +43,11 @@ class UpdateTeacherForm(forms.ModelForm):
         value = self.cleaned_data.get('first_name')
         return value.capitalize()
 
+
+class TeacherFilterForm(FilterSet):
+    class Meta:
+        model = Teacher
+        fields = {
+            'first_name': ['icontains'],
+            'last_name': ['icontains']
+        }

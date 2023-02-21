@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('group_name', models.CharField(db_column='group_name', max_length=50, verbose_name='Group name')),
-                ('start_date', models.DateField(default=datetime.date.today, validators=[core.validators.validate_start_date])),
+                ('start_date', models.DateField(default=datetime.date.today)),
                 ('end_date', models.DateField(default=datetime.datetime(2023, 5, 16, 12, 47, 39, 572672))),
                 ('group_description', models.TextField(blank=True, db_column='group_description', max_length=50, null=True, verbose_name='Group description')),
             ],
