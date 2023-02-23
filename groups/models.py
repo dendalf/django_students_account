@@ -5,7 +5,6 @@ from django.db import models
 from faker import Faker
 
 from core.models import BaseModel
-from core.validators import validate_start_date
 from teachers.models import Teacher
 
 
@@ -15,7 +14,7 @@ class Group(BaseModel):
         verbose_name='Group name',
         db_column='group_name'
     )
-    start_date = models.DateField(default=datetime.date.today, validators=[validate_start_date])
+    start_date = models.DateField(default=datetime.date.today)
     end_date = models.DateField(default=datetime.datetime.now() + datetime.timedelta(days=90))
     group_description = models.TextField(
         max_length=50,
@@ -26,7 +25,7 @@ class Group(BaseModel):
     )
     headman = models.OneToOneField('students.Student', on_delete=models.SET_NULL, null=True, blank=True, related_name='headman_group')
     teachers = models.ManyToManyField(to=Teacher, blank=True, related_name='group_teachers')
-    course = models.OneToOneField('courses.Course', on_delete=models.SET_NULL, null=True, related_name='course')
+    course = models.OneToOneField('courses.Course', on_delete=models.SET_NULL, null=True, blank=True, related_name='course')
 
     class Meta:
         db_table = 'groups'

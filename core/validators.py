@@ -21,9 +21,9 @@ def validate_unique_email(value):
             raise ValidationError('Your email is not unique!')
 
 
-def validate_start_date(value):
-    if value < datetime.now().date():
-        raise ValidationError('Your start date is not correct')
+# def validate_start_date(value):
+#     if value < datetime.now().date():
+#         raise ValidationError('Your start date is not correct')
 
 
 @deconstructible
