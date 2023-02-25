@@ -1,4 +1,4 @@
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -17,26 +17,26 @@ class ListTeacherView(ListView):
         return filter_form
 
 
-class DetailTeacherView(DetailView):
+class DetailTeacherView(LoginRequiredMixin, DetailView):
     model = Teacher
     template_name = 'teachers/detail.html'
 
 
-class CreateTeacherView(CreateView):
+class CreateTeacherView(LoginRequiredMixin, CreateView):
     model = Teacher
     template_name = 'teachers/create.html'
     form_class = CreateTeacherForm
     success_url = reverse_lazy('teachers:list')
 
 
-class UpdateTeacherView(UpdateView):
+class UpdateTeacherView(LoginRequiredMixin, UpdateView):
     model = Teacher
     template_name = 'teachers/create.html'
     form_class = UpdateTeacherForm
     success_url = reverse_lazy('teachers:list')
 
 
-class DeleteTeacherView(DeleteView):
+class DeleteTeacherView(LoginRequiredMixin, DeleteView):
     model = Teacher
     template_name = 'teachers/delete.html'
     success_url = reverse_lazy('teachers:list')

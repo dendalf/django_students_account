@@ -17,7 +17,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'students:list' %}">List</a></li>
-                        <li><a class="dropdown-item" href="{% url 'students:create' %}">Create</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'students:create' %}">Create</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -27,7 +29,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'teachers:list' %}">List</a></li>
-                        <li><a class="dropdown-item" href="{% url 'teachers:create' %}">Create</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'teachers:create' %}">Create</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -37,7 +41,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'groups:list' %}">List</a></li>
-                        <li><a class="dropdown-item" href="{% url 'groups:create' %}">Create</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'groups:create' %}">Create</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -47,7 +53,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'courses:list' %}">List</a></li>
-                        <li><a class="dropdown-item" href="{% url 'courses:create' %}">Create</a></li>
+                        {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'courses:create' %}">Create</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
@@ -56,12 +64,22 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            Account
+                            {% if user.is_authenticated %}
+                                {{ user.username }}
+                            {% else %}
+                                Log In
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'accounts:register' %}">Sing Up</a></li>
-                            <li><a class="dropdown-item" href="{% url 'accounts:login' %}">Log In</a></li>
-                            <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a></li>
+                            {% if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'accounts:register' %}">Sing Up</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:login' %}">Log In</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                 </ul>

@@ -163,3 +163,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = reverse_lazy('students:list')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
+
+EMAIL_PORT = 7000
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
