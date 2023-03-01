@@ -40,20 +40,28 @@
                 <th>Last name</th>
                 <th>Birthdate</th>
                 <th>Age</th>
-                <th><i class="bi bi-pencil-fill"></i></th>
-                <th><i class="bi bi-trash3-fill"></i></th>
+                {% if user.is_authenticated %}
+                    <th><i class="bi bi-pencil-fill"></i></th>
+                    <th><i class="bi bi-trash3-fill"></i></th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
             {% for teacher in object_list.qs %}
             <tr>
                 <td class="text-center">{{ forloop.counter }}</td>
-                <td><a href="{% url 'teachers:detail' teacher.pk %}">{{teacher.first_name}} </a></td>
+                {% if user.is_authenticated %}
+                    <td><a href="{% url 'teachers:detail' teacher.pk %}">{{teacher.first_name}} </a></td>
+                {% else %}
+                    <td>{{teacher.first_name}}</td>
+                {% endif %}
                 <td>{{teacher.last_name}} </td>
                 <td class="text-center">{{teacher.birthdate|date:"d M Y"}} </td>
                 <td class="text-center">{% if teacher.get_age %}{{ teacher.get_age }}{% endif %}</td>
-                <td class="text-center"><a class="btn btn-outline-primary btn-sm" href="{% url 'teachers:update' teacher.pk %}">Edit</a></td>
-                <td class="text-center"><a class="btn btn-outline-danger btn-sm" href="{% url 'teachers:delete' teacher.pk %}">Remove</a></td>
+                {% if user.is_authenticated %}
+                    <td class="text-center"><a class="btn btn-outline-primary btn-sm" href="{% url 'teachers:update' teacher.pk %}">Edit</a></td>
+                    <td class="text-center"><a class="btn btn-outline-danger btn-sm" href="{% url 'teachers:delete' teacher.pk %}">Remove</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
