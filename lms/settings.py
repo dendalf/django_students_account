@@ -84,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.get_params',
             ],
         },
     },
@@ -169,4 +170,6 @@ LOGOUT_REDIRECT_URL = reverse_lazy('home')
 EMAIL_PORT = 7000
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = ''
 
