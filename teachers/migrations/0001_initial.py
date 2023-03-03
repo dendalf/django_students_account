@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(db_column='l_name', max_length=50, verbose_name='Last name')),
                 ('birthdate', models.DateField(default=datetime.date.today)),
                 ('city', models.CharField(blank=True, max_length=50, null=True)),
-                ('email', models.EmailField(max_length=254, validators=[core.validators.ValidateEmailDomain('gmail.com', 'yahoo.com', 'test.com'), core.validators.validate_unique_email])),
+                ('email', models.EmailField(max_length=254, validators=[core.validators.ValidateEmailDomain('gmail.com', 'yahoo.com', 'test.com')])),
                 ('phone_number', models.CharField(max_length=20)),
                 ('salary', models.IntegerField()),
             ],

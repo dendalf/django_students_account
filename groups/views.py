@@ -11,6 +11,11 @@ class ListGroupView(ListView):
     model = Group
     template_name = 'groups/list.html'
 
+    def get_queryset(self):
+        groups = Group.objects.all().select_related('headman')
+
+        return groups
+
 
 class DetailGroupView(LoginRequiredMixin, DetailView):
     model = Group
