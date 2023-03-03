@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from django.db import models
 from faker import Faker
 
-from core.validators import ValidateEmailDomain, validate_unique_email
+from core.validators import ValidateEmailDomain
 
 
 class BaseModel(models.Model):
@@ -21,7 +21,7 @@ class PersonModel(BaseModel):
     last_name = models.CharField(max_length=50, verbose_name='Last name', db_column='l_name')
     birthdate = models.DateField(default=datetime.date.today)
     city = models.CharField(max_length=50, null=True, blank=True)
-    email = models.EmailField(validators=[ValidateEmailDomain(*valid_domains), validate_unique_email])
+    email = models.EmailField(validators=[ValidateEmailDomain(*valid_domains)])
     phone_number = models.CharField(max_length=20)
 
     class Meta:

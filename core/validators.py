@@ -13,12 +13,12 @@ def validate_email_domain(value):
         raise ValidationError('Your domain is not correct!')
 
 
-def validate_unique_email(value):
-    from students.models import Student
-    students = Student.objects.all()
-    for st in students:
-        if value.lower() == st.email.lower():
-            raise ValidationError('Your email is not unique!')
+# def validate_unique_email(value):
+#     from students.models import Student
+#     students = Student.objects.all()
+#     for st in students:
+#         if value.lower() == st.email.lower():
+#             raise ValidationError('Your email is not unique!')
 
 
 # def validate_start_date(value):
