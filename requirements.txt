@@ -13,3 +13,4 @@ webargs==8.2.0
 crispy-bootstrap5==0.7
 django-filter==22.1
 django-debug-toolbar==3.8.1
+Pillow==9.4.0

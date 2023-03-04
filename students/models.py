@@ -1,6 +1,8 @@
 
 from random import choice
 from django.db import models
+from django.db.models.signals import pre_init, post_init, pre_save, post_save
+from django.dispatch import receiver
 
 from core.models import PersonModel
 from groups.models import Group
@@ -23,4 +25,24 @@ class Student(PersonModel):
         student = super()._generate()
         student.group = choice(groups)
         student.save()
+
+
+@receiver(pre_init, sender=Student)
+def pre_init_signal(sender, **kwargs):
+    print(f'Pre INIT: {kwargs}')
+
+
+@receiver(post_init, sender=Student)
+def post_init_signal(sender, **kwargs):
+    print(f'Post INIT: {kwargs}')
+
+
+@receiver(pre_save, sender=Student)
+def pre_save_signal(sender, **kwargs):
+    print(f'Pre SAVE: {kwargs}')
+
+
+@receiver(post_save, sender=Student)
+def post_save_signal(sender, **kwargs):
+    print(f'Post SAVE: {kwargs}')
 

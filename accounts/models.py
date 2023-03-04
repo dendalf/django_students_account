@@ -8,6 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthdate = models.DateField(null=True, blank=True)
     city = models.CharField(null=True, blank=True, max_length=50)
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png', null=True, blank=True)
 
     class Meta:
         db_table = 'profiles'
