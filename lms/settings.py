@@ -171,5 +171,5 @@ EMAIL_PORT = 7000
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = ''
+MEDIA_ROOT = BASE_DIR / 'media'
 

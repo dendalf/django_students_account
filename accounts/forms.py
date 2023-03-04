@@ -31,6 +31,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['birthdate', 'city']
+        fields = ['birthdate', 'city', 'avatar']
 
         widgets = {'birthdate': forms.DateInput(attrs={'type': 'date'})}
